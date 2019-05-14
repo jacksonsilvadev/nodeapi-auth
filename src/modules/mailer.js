@@ -13,11 +13,13 @@ const transport = nodeMailer.createTransport({
         pass: "3c796964acff00"
     }
 });
+//^ informando os dados smtp para enviar os emails
 
-transport.use('complie', hbs({
+transport.use('compile', hbs({
     viewEngine: 'handlebars',
     viewPath: path.resolve('./src/resources/mail'),
     extName: '.html',
 }))
+// Utilizando um compile para ler templates HTML
 
 module.exports = transport;
