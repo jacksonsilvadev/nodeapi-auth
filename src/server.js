@@ -25,7 +25,7 @@ const routes = require('./router');
 //^ Importando arquivos de rota
 
 app.use('/auth', routes.routes);
-app.use('/', routes.project);
+app.use('/projects', routes.project);
 //^ Utilizando as rotas
 
 

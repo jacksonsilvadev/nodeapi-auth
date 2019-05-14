@@ -8,6 +8,7 @@ const authMiddleware = require('./auth/middlewares/auth');
 //^ Chamando o Middleware de Autenticação
 
 const UserController = require('./controllers/authController');
+const projectController = require('./controllers/projectController');
 //^ Chamando o Controller de autenticação
 
 
@@ -22,9 +23,11 @@ project.use(authMiddleware);
 //^ Atribuindo o Middleware para tudo que for nas rotas project - Então todas as rotas que são utilizada pela project 
 // tem que estar com o token de autenticação
 
-project.get('/', (req, res) => {
-    res.send('Hello there')
-})
+project.get('/', projectController.index)
+project.get('/:projectId', projectController.show)
+project.post('/', projectController.store)
+project.put('/:projectId', projectController.update)
+project.delete('/:projectId', projectController.destroy)
 
 module.exports = {
     routes,
