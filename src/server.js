@@ -18,10 +18,10 @@ mongoose.connect('mongodb://localhost:27017/noderest', {
 });
 //^ Conectando com a BD
 // É usado o atributo "useCreateIndex" para que funcione o unique no email
-requireDir('./config/models');
+requireDir('./models');
 //^ pegando todos arquivos da model.
 
-const routes = require('./config/router');
+const routes = require('./router');
 //^ Importando arquivos de rota
 
 app.use('/auth', routes.routes);

@@ -4,7 +4,7 @@ const routes = express.Router();
 const project = express.Router();
 //^ Chamando a rota de express
 
-const authMiddleware = require('../auth/middlewares/auth');
+const authMiddleware = require('./auth/middlewares/auth');
 //^ Chamando o Middleware de Autenticação
 
 const UserController = require('./controllers/authController');
@@ -16,6 +16,7 @@ routes.get('/', UserController.index);
 routes.post('/register', UserController.store);
 routes.post('/authenticate', UserController.auth);
 routes.post('/forgot', UserController.forgotPassword);
+routes.post('/reset_password', UserController.resetPassword);
 
 project.use(authMiddleware);
 //^ Atribuindo o Middleware para tudo que for nas rotas project - Então todas as rotas que são utilizada pela project 

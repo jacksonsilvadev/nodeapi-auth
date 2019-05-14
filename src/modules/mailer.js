@@ -15,9 +15,14 @@ const transport = nodeMailer.createTransport({
 });
 //^ informando os dados smtp para enviar os emails
 
+
+
 transport.use('compile', hbs({
-    viewEngine: 'handlebars',
-    viewPath: path.resolve('./src/resources/mail'),
+    viewEngine: {
+        extName: '.hbs',
+        partialsDir: path.resolve('./src/resource/mail/auth')
+      },
+    viewPath: path.resolve('./src/resource/mail'),
     extName: '.html',
 }))
 // Utilizando um compile para ler templates HTML

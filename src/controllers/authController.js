@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken')
 // ^ JsonWebToken - autenticação segurança
 const crypto = require('crypto');
 // ^ Token temporário
-const mailer = require('../../modules/mailer');
+const mailer = require('../modules/mailer');
 // ^Exportando configurações para envio de email
 
-const authConfig = require('../../auth/auth.json')
+const authConfig = require('../config/auth.json')
 // ^ Pegando o Secret da aplicação
 
 function generateToken(params = {}) {
@@ -139,7 +139,7 @@ module.exports = {
                 template: 'auth/forgot_password',
                 context: {
                     token
-                }
+                },
             }, (err) => {
                 if (err)
                     return res.status(400).send({
@@ -150,9 +150,35 @@ module.exports = {
             })
 
         } catch (err) {
+            console.log(err)
             res.status(400).send({
                 error: 'Error on forgot password, try again'
             })
+        }
+    },
+    async resetPassword (req, res) {
+        const { email, token, password } = req.body;
+
+        try {
+
+            const user = await User.findOne( { email }).select('+passwordResetToken passwordResetExpires');
+
+            if(!user) return res.status(400).send({error: 'User not found'});
+
+            if (token !== user.passwordResetToken) return res.status(400).send({error: 'Token invalid'});
+
+           const now = Date.now
+
+           if (now > user.passwordResetExpires ) return res.status(400).send({error: 'Token expired, generate a new one'});
+
+           user.password = password;
+
+           await user.save();
+
+           res.send();
+
+        } catch (err) {
+            if (err) return res.status(400).send({error: 'Cannot reset password, try again'})
         }
     }
 }
